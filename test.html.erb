@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+  <style>
+  form{
+    background:skyblue;
+    width:700px;
+    margin:auto;
+    text-align:center;
+    font-size:20px;
+  }
+ .submit{
+   border-radius:10px;
+   padding:5px;
+   background:orange;
+   border:solid 1px;
+
+ }
+ h1{
+   color:white
+ }
+  </style>
+  <body>
+    <h1>web tech task</h1>
+
+    <% require 'pg' %>
+
+    <% connection = PG::connect(dbname: "goya") %>
+
+    <% connection.internal_encoding = "UTF-8" %>
+
+    <% result = connection.exec("select* from crops where give_for !='自家消費' and quality !='false';") %>
+    <% date = [] %>
+
+    <% result.each do |record| %>
+      <%  date << "length: #{record ["length"]} weight: #{record ["weight"]} quality: #{record ["quality"]} transferee: #{record ["give_for"]} done on: #{record ["date"]}" %>    <% end %>
+
+    <form action="goya.cgi" method="POST" style="color:red">
+    <h1>web tech task</h1>
+       Press the button below to verify if the information required are correct<br><br>
+       <!-- Substitute the data you want to send for value -->
+       <!-- Make name = "goya" a mark of information -->
+      <input type="text" name="goya" value ="<%= date.join(' ') %>"><br>
+      <input type="submit" name="submit" class="submit" >
+    </form>
+  </body>
+</html>
