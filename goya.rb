@@ -10,7 +10,7 @@ cgi.out("type" => "text/html", "charset" => "UTF-8") {
   # Return the response in HTML
   "<html>
     <body>
-      <p>the information of goya database without referee= self construction and no false quality are:</p>
+      <p>the information of goya database without referee= self construction</p>
       String：#{get}
     </body>
   </html>"

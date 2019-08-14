@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <style>
-  form{
+  #form{
     background:skyblue;
     width:700px;
     margin:auto;
@@ -30,19 +30,35 @@
 
     <% connection.internal_encoding = "UTF-8" %>
 
-    <% result = connection.exec("select* from crops where give_for !='自家消費' and quality !='false';") %>
+    <% result = connection.exec("select* from crops where give_for !='自家消費';") %>
     <% date = [] %>
 
     <% result.each do |record| %>
       <%  date << "length: #{record ["length"]} weight: #{record ["weight"]} quality: #{record ["quality"]} transferee: #{record ["give_for"]} done on: #{record ["date"]}" %>    <% end %>
-
-    <form action="goya.cgi" method="POST" style="color:red">
+    <div id="form">
     <h1>web tech task</h1>
-       Press the button below to verify if the information required are correct<br><br>
+    <hr>
+    <form action="goya.cgi" method="POST" style="color:red">
+       Press the button below to verify if information on goya appears even though the transferee is not self-consumption<br><br>
        <!-- Substitute the data you want to send for value -->
        <!-- Make name = "goya" a mark of information -->
       <input type="text" name="goya" value ="<%= date.join(' ') %>"><br>
       <input type="submit" name="submit" class="submit" >
     </form>
+
+    <% result2 = connection.exec("select* from crops where quality ='false';") %>
+    <% date = [] %>
+
+    <% result2.each do |record| %>
+      <%  date << "length: #{record ["length"]} weight: #{record ["weight"]} quality: #{record ["quality"]} transferee: #{record ["give_for"]} done on: #{record ["date"]}" %>    <% end %>
+      <hr>
+      <form action="goya2.cgi" method="POST" style="color:red">
+       Press the button below to see the information of poor quality (false) goya<br><br>
+       <!-- Substitute the data you want to send for value -->
+       <!-- Make name = "goya2" a mark of information -->
+      <input type="text" name="goya2" value ="<%= date.join(' ') %>"><br>
+      <input type="submit" name="submit" class="submit" >
+    </form>
+    </div>
   </body>
 </html>
