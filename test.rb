@@ -15,7 +15,7 @@ server = WEBrick::HTTPServer.new({
           Signal.trap(signal){ server.shutdown }
         }
 
-server.mount('/test', WEBrick::HTTPServlet::ERBHandler, 'test.html.erb')
+server.mount('/', WEBrick::HTTPServlet::ERBHandler, 'test.html.erb')
 server.mount('/goya.cgi', WEBrick::HTTPServlet::CGIHandler, 'goya.rb')
 server.mount('/goya2.cgi', WEBrick::HTTPServlet::CGIHandler, 'goya2.rb')
 
